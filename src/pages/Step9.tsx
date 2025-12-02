@@ -1,6 +1,5 @@
 import { StarIcon } from "lucide-react";
 import Image1 from "../assets/badge.png";
-import Image2 from "../assets/insta1.jpg";
 
 export default function Step9() {
   function goToCheckout() {
