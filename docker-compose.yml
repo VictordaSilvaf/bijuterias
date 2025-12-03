@@ -1,28 +1,36 @@
-version: "3.9"
-
-networks:
-  ofertinhas:
-    external: true
+version: '3.8'
 
 services:
-  loja:
-    image: vitedocker:latest
-    networks:
-      - ofertinhas
-
+  bijuterias:
+    image: virtusilva/bijuterias:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     deploy:
       replicas: 1
+      restart_policy:
+        condition: on-failure
       labels:
-        traefik.enable: "true"
+        - "traefik.enable=true"
 
-        # Roteamento HTTPS
-        traefik.http.routers.loja.rule: Host(`bijuterias.ofertinhas.site`)
-        traefik.http.routers.loja.entrypoints: websecure
-        traefik.http.routers.loja.tls.certresolver: letsencryptresolver
+        # HTTP → HTTPS (redireciona automaticamente)
+        - "traefik.http.routers.bijuterias-http.rule=Host(`bijuterias.ofertinhas.site`)"
+        - "traefik.http.routers.bijuterias-http.entrypoints=web"
+        - "traefik.http.routers.bijuterias-http.middlewares=redirect-https"
+        - "traefik.http.middlewares.redirect-https.redirectscheme.scheme=https"
 
-        # Serviço apontando para a porta interna do Nginx
-        traefik.http.services.loja.loadbalancer.server.port: "80"
+        # HTTPS com certificado automático Let's Encrypt
+        - "traefik.http.routers.bijuterias-https.rule=Host(`bijuterias.ofertinhas.site`)"
+        - "traefik.http.routers.bijuterias-https.entrypoints=websecure"
+        - "traefik.http.routers.bijuterias-https.tls=true"
+        - "traefik.http.routers.bijuterias-https.tls.certresolver=letsencrypt"  # ← troque só se o seu certresolver tiver outro nome
 
-    # Expõe internamente para o Traefik
-    expose:
-      - "80"
+        # Porta interna do Nginx
+        - "traefik.http.services.bijuterias.loadbalancer.server.port=80"
+
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
