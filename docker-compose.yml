@@ -1,0 +1,28 @@
+version: "3.9"
+
+networks:
+  ofertinhas:
+    external: true
+
+services:
+  loja:
+    image: vitedocker:latest
+    networks:
+      - ofertinhas
+
+    deploy:
+      replicas: 1
+      labels:
+        traefik.enable: "true"
+
+        # Roteamento HTTPS
+        traefik.http.routers.loja.rule: Host(`bijuterias.ofertinhas.site`)
+        traefik.http.routers.loja.entrypoints: websecure
+        traefik.http.routers.loja.tls.certresolver: letsencryptresolver
+
+        # Serviço apontando para a porta interna do Nginx
+        traefik.http.services.loja.loadbalancer.server.port: "80"
+
+    # Expõe internamente para o Traefik
+    expose:
+      - "80"
