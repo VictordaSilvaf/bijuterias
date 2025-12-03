@@ -13,9 +13,8 @@ export default function Step1({ nextStep }: { nextStep: () => void }) {
       </p>
 
       <p className="text-base text-neutral-800 leading-relaxed">
-        Olá, me chamo
-        <span className="font-semibold">Beatriz Marques</span>e trabalho com
-        bijuterias artesanais desde 2023.
+        Olá, me chamo <span className="font-semibold">Beatriz Marques</span> e
+        trabalho com bijuterias artesanais desde 2023.
         <span className="text-yellow-500">✨</span>
       </p>
 
