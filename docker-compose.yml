@@ -17,10 +17,9 @@ services:
         - "traefik.http.routers.bijuterias-https.rule=Host(`bijuterias.ofertinhas.site`)"
         - "traefik.http.routers.bijuterias-https.entrypoints=websecure"
         - "traefik.http.routers.bijuterias-https.tls=true"
-        - "traefik.http.routers.bijuterias-https.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.bijuterias-https.tls.certresolver=letsencryptresolver"
 
         - "traefik.http.services.bijuterias.loadbalancer.server.port=80"
-
     networks:
       - ofertinhas   # ← rede que já existe
 
