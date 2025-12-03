@@ -30,7 +30,7 @@ function App() {
 
   return (
     <div className="bg-[#fff7ed] min-h-screen h-full flex items-center justify-start pt-8 overflow-x-hidden flex-col">
-      <div className="max-w-md w-full h-full flex flex-col flex-1">
+      <div className="max-w-md px-8 w-full h-full flex flex-col flex-1">
         <ProgressBar value={progress} />
         {step > 1 && (
           <button
