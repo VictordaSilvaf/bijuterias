@@ -1,10 +1,9 @@
-# Etapa 1: Build do React/Vite
+# Etapa de build — agora instala TUDO (incluindo devDependencies)
 FROM node:24-alpine AS builder
 WORKDIR /app
-
-# Copia apenas package primeiro (melhor cache)
 COPY package*.json ./
-RUN npm ci --omit=dev --frozen-lockfile
+
+RUN npm ci --frozen-lockfile
 
 # Copia o resto e faz build
 COPY . .
